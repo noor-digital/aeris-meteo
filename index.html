@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aeris, la météo qui se ressent</title>
+<meta name="description" content="Aeris : une météo vivante, dont l’ambiance suit le ciel de votre ville.">
+<meta name="theme-color" content="#5aa9f0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⛅</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,400;1,9..144,300&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-c="0">
+<div id="bar"></div><div id="sky"></div><div class="orb"></div><div class="cl"></div><div class="cl"></div><div class="cl"></div><canvas id="fx" aria-hidden="true"></canvas>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#cfd9e6"/></linearGradient>
+<linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3eaf3"/><stop offset="1" stop-color="#9fb0c4"/></linearGradient>
+<path id="cp" d="M20 48h25a10 10 0 0 0 1.5-19.9A14 14 0 0 0 19.6 25 11.5 11.5 0 0 0 20 48z"/>
+<g id="rays" stroke="#ffc83d" stroke-width="3.5" stroke-linecap="round"><path d="M32 7v6M32 51v6M7 32h6M51 32h6M14 14l4 4M46 46l4 4M14 50l4-4M46 18l4-4"/></g>
+<symbol id="i-sun" viewBox="0 0 64 64"><use href="#rays"/><circle cx="32" cy="32" r="12" fill="#ffc83d"/></symbol>
+<symbol id="i-moon" viewBox="0 0 64 64"><path d="M42 52a22 22 0 1 1-6-42 17 17 0 0 0 6 42z" fill="#eef1ff"/><circle cx="24" cy="30" r="3" fill="#d5dbf5"/><circle cx="31" cy="42" r="2" fill="#d5dbf5"/></symbol>
+<symbol id="i-cloud" viewBox="0 0 64 64"><use href="#cp" fill="url(#cg)"/></symbol>
+<symbol id="i-pc" viewBox="0 0 64 64"><g transform="translate(-6 -6) scale(.78)"><use href="#rays"/><circle cx="32" cy="32" r="12" fill="#ffc83d"/></g><g transform="translate(5 8) scale(.92)"><use href="#cp" fill="url(#cg)"/></g></symbol>
+<symbol id="i-pn" viewBox="0 0 64 64"><path d="M30 38a15 15 0 1 1-3-29 12 12 0 0 0 3 29z" fill="#eef1ff" transform="translate(2 2)"/><g transform="translate(5 8) scale(.92)"><use href="#cp" fill="url(#cg)"/></g></symbol>
+<symbol id="i-rain" viewBox="0 0 64 64"><g transform="translate(0 -6)"><use href="#cp" fill="url(#dg)"/></g><path d="M24 46l-2.5 8M33 46l-2.5 8M42 46l-2.5 8" stroke="#4fa3ff" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="i-snow" viewBox="0 0 64 64"><g transform="translate(0 -6)"><use href="#cp" fill="url(#cg)"/></g><g fill="#fff" stroke="#b7c8dc" stroke-width=".8"><circle cx="24" cy="49" r="2.6"/><circle cx="33" cy="54" r="2.6"/><circle cx="42" cy="49" r="2.6"/></g></symbol>
+<symbol id="i-storm" viewBox="0 0 64 64"><g transform="translate(0 -7)"><use href="#cp" fill="url(#dg)"/></g><path d="M35 34l-9 13h6l-3 11 12-16h-6l4-8z" fill="#ffd23f"/></symbol>
+<symbol id="i-fog" viewBox="0 0 64 64"><g transform="translate(0 -8)"><use href="#cp" fill="url(#cg)" opacity=".9"/></g><path d="M14 46h36M20 53h28M16 60h30" stroke="#d6dfea" stroke-width="3" stroke-linecap="round"/></symbol>
+</defs></svg>
+
+<div class="wrap">
+<header>
+  <div class="brand"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="15" cy="15" r="9" fill="#ffc83d"/><path d="M13 32h18a7 7 0 0 0 1-13.9A10 10 0 0 0 13.5 17 8 8 0 0 0 13 32z" fill="currentColor" opacity=".9"/></svg>Aeris</div>
+  <div class="tools">
+    <div class="glass"><button class="seg" id="uC" aria-pressed="true" aria-label="Degrés Celsius">°C</button><button class="seg" id="uF" aria-pressed="false" aria-label="Degrés Fahrenheit">°F</button></div>
+    <div class="glass"><button class="ib" id="th" aria-label="Changer de thème"><svg viewBox="0 0 24 24"><path id="thp" d=""/></svg></button></div>
+  </div>
+  <form class="search" id="sf" role="search" autocomplete="off">
+    <div class="glass"><svg class="ib" style="width:20px;height:20px;padding:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input id="q" type="text" placeholder="Rechercher une ville" aria-label="Rechercher une ville" role="combobox" aria-expanded="false" aria-controls="sg" enterkeyhint="search">
+    <button class="ib" type="button" id="geo" aria-label="Utiliser ma position"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></button></div>
+    <ul id="sg" role="listbox" hidden></ul>
+  </form>
+</header>
+<nav class="chips" id="chips" aria-label="Villes"></nav>
+
+<section id="err" class="glass" hidden><h2>Météo indisponible</h2><p>Le service ne répond pas. Vérifie ta connexion internet puis relance la recherche.</p><button id="retry">Réessayer</button></section>
+
+<main id="app" class="loading go">
+  <section class="hero">
+    <div>
+      <div class="sk rise" style="--i:0;width:max-content;max-width:100%"><h1 class="place" id="city">Paris, France</h1><div class="date" id="date">lundi 1 janvier</div></div>
+      <div class="temp rise sk" style="--i:1" role="img" id="tb" aria-label="Température"><span id="tv">00</span><sup>°</sup></div>
+      <div class="cond sk rise" style="--i:2;width:max-content" id="cond">Partiellement nuageux</div>
+      <div class="pills rise" style="--i:3" id="pills"><span class="pill sk">↑ 00°</span><span class="pill sk">↓ 00°</span><span class="pill sk">Ressenti 00°</span></div>
+    </div>
+    <div class="art rise" style="--i:2" id="art"><svg class="ic" viewBox="0 0 64 64"><use href="#i-pc"/></svg></div>
+  </section>
+  <div class="row">
+    <section class="card glass hourly rise sk" style="--i:4"><h2>Les prochaines heures</h2><ul id="hr" class="l" tabindex="0" aria-label="Prévisions horaires"><li style="height:110px;width:100%"></li></ul></section>
+    <section class="card glass rise sk lift" style="--i:5"><h2>Sur sept jours</h2><ul id="dy" class="l" style="min-height:300px"></ul></section>
+    <section class="rise" style="--i:6"><div class="tiles sk" id="tiles" style="min-height:300px"></div></section>
+  </div>
+</main>
+<footer>Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo.com</a></footer>
+</div>
+<div id="toasts" role="status" aria-live="polite"></div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
