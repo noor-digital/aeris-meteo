@@ -27,15 +27,9 @@ The interface is in French. The code, comments and this documentation are in Eng
 
 ## Screenshots
 
-> **Screenshots to add.** This section is intentionally a placeholder: add real captures of the running app to `assets/screenshots/` and reference them here.
+![Real screenshot of Aeris Météo running in the browser](https://raw.githubusercontent.com/noor-digital/noor-digital-portfolio/main/public/assets/aeris-meteo.png)
 
-<!--
-Suggested captures:
-![Desktop, light theme](assets/screenshots/desktop-light.png)
-![Desktop, dark theme at night](assets/screenshots/desktop-dark-night.png)
-![Mobile, rainy weather](assets/screenshots/mobile-rain.png)
--->
-
+[Open the live demo](https://noor-digital.github.io/aeris-meteo/)
 ## Tech Stack
 
 - **HTML5**: semantic structure, inline SVG sprite for weather icons
