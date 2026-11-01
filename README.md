@@ -170,3 +170,12 @@ These are ideas, not implemented features:
 ## License
 
 No license file is included yet. Until one is added, default copyright applies and the code may not be reused without the author's permission. A license will be added once the author has chosen one.
+
+
+## NOOR DIGITAL
+
+Aeris Météo is part of the **NOOR DIGITAL** portfolio — *La lumière qui structure*.
+
+- **Live demo:** https://noor-digital.github.io/aeris-meteo/
+- **GitHub:** https://github.com/noor-digital
+- **Portfolio:** https://noor-digital.github.io/noor-digital-portfolio/
